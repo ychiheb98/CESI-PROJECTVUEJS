@@ -1,0 +1,24 @@
+[{
+    "idIntervention" : "125945Tr8",
+    "Date": "06/06/06",
+    "Societe": "CHU Bordeaux",
+    "Demandeur": {
+       "Nom": "Mr",
+       "Prenom": "Demandeur"
+    },
+    "Email": "Mzbeul@gmail.com",
+    "Adresse": "123 Rue de Zbeul",
+    "numTel": "+33698989878",
+    "Intervenant": {
+       "Nom": "Zbeul",
+       "Prenom": "Land"
+    },
+    "Equipements": {
+      "Type": "Ordi",
+      "Marque": "Apple",
+      "Nature": "Overrated"
+    },
+    "Rapport": "Le Zbeul",
+    "Signe": true
+}]
+

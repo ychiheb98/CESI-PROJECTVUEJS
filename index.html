@@ -1,48 +1,54 @@
-<!doctype html>
-
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8">
-
-  <title>Family</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-  <link rel="stylesheet" href="css/style.css?v=1.0">
-  <style>
-    .active {
-      font-size: 45px;
-        color:red;
-    }
-    a:hover {
-      font-size: 45px;
-        color:green;
-    }
-
-  </style>
-
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>VUEJS DATA TABLE</title>
+  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-  <div id="root">
-    <a href="http://www.google.fr" title="test" id="lien" target="_blank" onclick="remove()">Test</a>
+  <div class="container">
+    <div id="app">
+      <h2>Table d'Intervention</h2>  
+      <table class="table">
+        <thead>
+            <tr>
+              <th>ID</th>
+              <th>DATE</th>
+              <th>SOCIETE</th>
+              <th>DEMANDEUR</th>
+              <th>EMAIL</th>
+              <th>ADRESSE</th>
+              <th>NUMERO</th>
+              <th>INTERVENANT</th>
+              <th>RAPPORT</th>
+              <th>SIGNE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(result, index) in results">
+                <td>{{ result.idIntervention }}</td>
+                <td>{{ result.Date }}</td>
+                <td>{{ result.Societe }}</td>
+                <td>{{ result.Demandeur }}</td>
+                <td>{{ result.Email }}</td>
+                <td>{{ result.Adresse }}</td>
+                <td>{{ result.numTel }}</td>
+                <td>{{ result.Intervenant }}</td>
+                <td>{{ result.Rapport }}</td>
+                <td>{{ result.Signe }}</td>
+            </tr>
+        </tbody>
+      </table>
     </div>
-
-
-</body>
-
+  </div>
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script>
-    var lien = document.getElementById("lien")
-    lien.title="Asagi"
-    lien.classList.add("active");
-
-    function remove(){
-    lien.classList.remove("active");
-    }
-
-
-  </script>
-
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+</body>
 </html>
