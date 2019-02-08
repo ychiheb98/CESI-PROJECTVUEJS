@@ -3,6 +3,7 @@ const url = "https://api.myjson.com/bins/1dvz20";
 const vm = new Vue({
   el: '#app',
   data: {
+    editable: false,
     results: [
       {
         idIntervention: "5c5c460eee6ecc66f73cda7e",

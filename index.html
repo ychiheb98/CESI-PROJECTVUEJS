@@ -15,15 +15,15 @@
         <input type="text" id="myInput" class="form-control" placeholder="Rechercher...">
       <p>
       <div id="app">
-      <table id="myTable" class="table">
-          <div class="switch">
-              <label>
-                Mode Edition Off
-                <input onclick="toggle_visibility('noneditable', 'editable');" type="checkbox">
-                <span class="lever"></span>
-                Mode Edition On
-              </label>
-          </div> 
+        <div class="switch">
+            <label>
+              Mode Edition Off
+              <input v-on:click="editable = !editable" type="checkbox">
+              <span class="lever"></span>
+              Mode Edition On
+            </label>
+        </div>
+      <table id="myTable" class="table"> 
         <thead>
             <!-- <button class="btn btn-default" @click='addTableRow()'>Ajouter Une Intervention</button> -->
             <tr>
@@ -40,8 +40,7 @@
             </tr>
         </thead>
         <tbody> 
-            <div id="editable" style="display: none">
-              <tr v-for="(result, index) in results">
+              <tr id="editable" v-show="editable" v-for="(result, index) in results">
                   <td>{{ result.index }}</td>
                   <td><input v-model="result.Societe"></td>
                   <td><input v-model="result.Demandeur.Nom"> <input v-model="result.Demandeur.Prenom"></td>
@@ -54,9 +53,7 @@
                       <div class="circle_green"></div>
                   </td>
               </tr>   
-            </div>
-            <div id="noneditable">
-              <tr v-for="(result, index) in results">
+              <tr id="noneditable" v-show="!editable" v-for="(result, index) in results">
                   <td>{{ result.idIntervention }}</td>
                   <td>{{ result.Societe }}</td>
                   <td>{{ result.Demandeur.Nom }} {{ result.Demandeur.Prenom }}</td>
@@ -75,7 +72,6 @@
                       <button class="btn btn-danger" @click='deleteTableRow(index)'>Supprimer</button>
                   </td>
               </tr>
-            </div>
         </tbody>
       </table>
     </div>
