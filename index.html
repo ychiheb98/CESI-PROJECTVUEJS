@@ -4,18 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>VUEJS DATA TABLE</title>
 	<meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
-
-	<!-- Loading Font Awesome Icons -->
-	<link href="css/font-awesome.min.css" rel="stylesheet">
-
-	<!-- Loading Bootstrap -->
-	<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="bootstrap/css/prettify.css" rel="stylesheet">
-
-	<!-- Loading Drunken Parrot UI -->
-	<link href="css/drunken-parrot.css" rel="stylesheet">
-	<link href="css/docs.css" rel="stylesheet">
-
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="main.css">
 </head>
 
@@ -26,9 +16,17 @@
       <p>
       <div id="app">
       <table id="myTable" class="table">
+          <div class="switch">
+              <label>
+                Mode Edition Off
+                <input onclick="toggle_visibility('noneditable', 'editable');" type="checkbox">
+                <span class="lever"></span>
+                Mode Edition On
+              </label>
+          </div> 
         <thead>
+            <!-- <button class="btn btn-default" @click='addTableRow()'>Ajouter Une Intervention</button> -->
             <tr>
-              <th>#</th>
               <th>ID</th>
               <th>SOCIETE</th>
               <th>DEMANDEUR</th>
@@ -41,28 +39,43 @@
               <th>ACTIONS</th>
             </tr>
         </thead>
-        <tbody>               
-            <tr v-for="(result, index) in results">
-                <td>{{ result.index }}</td>
-                <td>{{ result.idIntervention }}</td>
-                <td>{{ result.Societe }}</td>
-                <td>{{ result.Demandeur.Nom }} {{ result.Demandeur.Prenom }}</td>
-                <td>{{ result.Email }}</td>
-                <td>{{ result.Adresse }}</td>
-                <td>{{ result.numTel }}</td>
-                <td>{{ result.Intervenant.Nom }} {{ result.Intervenant.Prenom }}</td>
-                <td>{{ result.Rapport }}</td>
-                <td v-if="result.isSigned" >
-                    <div class="circle_green"></div>
-                </td>
-                <td v-if="result.isSigned === false">
-                  <div class="circle_red"></div>
-                </td>
-                <td>
-                    <button class="btn btn-danger" @click='deleteTableRow(index)'>Supprimer</button>
-                    <button class="btn btn-default" @click='addTableRow()'>Ajouter</button>
-                </td>
-            </tr>
+        <tbody> 
+            <div id="editable" style="display: none">
+              <tr v-for="(result, index) in results">
+                  <td>{{ result.index }}</td>
+                  <td><input v-model="result.Societe"></td>
+                  <td><input v-model="result.Demandeur.Nom"> <input v-model="result.Demandeur.Prenom"></td>
+                  <td><input v-model="result.Email"></td>
+                  <td><input v-model="result.Adresse"></td>
+                  <td><input v-model="result.numTel"></td>
+                  <td><input v-model="result.Intervenant.Nom"><input v-model="result.Intervenant.Prenom"></td>
+                  <td><input v-model="result.Rapport"></td>
+                  <td v-if="result.isSigned" >
+                      <div class="circle_green"></div>
+                  </td>
+              </tr>   
+            </div>
+            <div id="noneditable">
+              <tr v-for="(result, index) in results">
+                  <td>{{ result.idIntervention }}</td>
+                  <td>{{ result.Societe }}</td>
+                  <td>{{ result.Demandeur.Nom }} {{ result.Demandeur.Prenom }}</td>
+                  <td>{{ result.Email }}</td>
+                  <td>{{ result.Adresse }}</td>
+                  <td>{{ result.numTel }}</td>
+                  <td>{{ result.Intervenant.Nom }} {{ result.Intervenant.Prenom }}</td>
+                  <td>{{ result.Rapport }}</td>
+                  <td v-if="result.isSigned" >
+                      <div class="circle_green"></div>
+                  </td>
+                  <td v-if="result.isSigned === false">
+                    <div class="circle_red"></div>
+                  </td>
+                  <td>
+                      <button class="btn btn-danger" @click='deleteTableRow(index)'>Supprimer</button>
+                  </td>
+              </tr>
+            </div>
         </tbody>
       </table>
     </div>
@@ -73,6 +86,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="main.js"></script>
   <script src="script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

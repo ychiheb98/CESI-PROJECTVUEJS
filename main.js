@@ -413,15 +413,15 @@ const vm = new Vue({
         isSigned: true 
       }
     ],
-    counter : 24
+    counter : 24,
+    index : 23
   },
   
   methods:{
-    addTableRow: function () { 
-      this.counter++;
-      this.results.push(this.counter);
-      
-   },
+   addTableRow: function () {
+    this.counter++;
+    this.results.push({ idIntervention: '',index: this.index + 1, Demandeur : {Nom:'', Prenom:''},Societe:'',Email:'',numTel:'', Adresse:'', Intervenant: {Nom:''},Rapport:'',isSigned:'' });
+  },
     deleteTableRow: function (idx) { 
       this.counter--;
       this.results.splice(idx, 1);      
