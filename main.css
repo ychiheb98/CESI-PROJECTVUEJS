@@ -1,6 +1,22 @@
-.imageCard {
-  display: block !important;
-  margin: 0 auto !important;
-  width: auto !important;
-  height: auto !important;
+.circle_green
+{
+    border: 2px solid #a1a1a1;
+    padding: 10px 11px;
+    background: green;
+    width: 2px;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1%;
+}
+.circle_red
+{
+    border: 2px solid #a1a1a1;
+    padding: 10px 11px;
+    background: red;
+    width: 2px;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1%;
 }

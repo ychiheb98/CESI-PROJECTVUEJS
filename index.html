@@ -3,21 +3,33 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>VUEJS DATA TABLE</title>
-  <!-- Materialize CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+	<!-- Loading Font Awesome Icons -->
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Loading Bootstrap -->
+	<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="bootstrap/css/prettify.css" rel="stylesheet">
+
+	<!-- Loading Drunken Parrot UI -->
+	<link href="css/drunken-parrot.css" rel="stylesheet">
+	<link href="css/docs.css" rel="stylesheet">
+
   <link rel="stylesheet" href="main.css">
 </head>
 
-<body>
-  <div class="container">
-    <div id="app">
-      <h2>Table d'Intervention</h2>  
-      <table class="table">
+  <body>
+      <div class="container">
+      <p>
+        <input type="text" id="myInput" class="form-control" placeholder="Rechercher...">
+      <p>
+      <div id="app">
+      <table id="myTable" class="table">
         <thead>
             <tr>
+              <th>#</th>
               <th>ID</th>
-              <th>DATE</th>
               <th>SOCIETE</th>
               <th>DEMANDEUR</th>
               <th>EMAIL</th>
@@ -26,20 +38,30 @@
               <th>INTERVENANT</th>
               <th>RAPPORT</th>
               <th>SIGNE</th>
+              <th>ACTIONS</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody>               
             <tr v-for="(result, index) in results">
+                <td>{{ result.index }}</td>
                 <td>{{ result.idIntervention }}</td>
-                <td>{{ result.Date }}</td>
                 <td>{{ result.Societe }}</td>
-                <td>{{ result.Demandeur }}</td>
+                <td>{{ result.Demandeur.Nom }} {{ result.Demandeur.Prenom }}</td>
                 <td>{{ result.Email }}</td>
                 <td>{{ result.Adresse }}</td>
                 <td>{{ result.numTel }}</td>
-                <td>{{ result.Intervenant }}</td>
+                <td>{{ result.Intervenant.Nom }} {{ result.Intervenant.Prenom }}</td>
                 <td>{{ result.Rapport }}</td>
-                <td>{{ result.Signe }}</td>
+                <td v-if="result.isSigned" >
+                    <div class="circle_green"></div>
+                </td>
+                <td v-if="result.isSigned === false">
+                  <div class="circle_red"></div>
+                </td>
+                <td>
+                    <button class="btn btn-danger" @click='deleteTableRow(index)'>Supprimer</button>
+                    <button class="btn btn-default" @click='addTableRow()'>Ajouter</button>
+                </td>
             </tr>
         </tbody>
       </table>
@@ -48,7 +70,9 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="main.js"></script>
+  <script src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 </body>
 </html>
