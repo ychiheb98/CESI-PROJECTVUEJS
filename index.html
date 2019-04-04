@@ -1,87 +1,217 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>VUEJS DATA TABLE</title>
-	<meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="main.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Intervention Viewer</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
 </head>
+<body>
 
-  <body>
-      <div class="container">
-      <p>
-        <input type="text" id="myInput" class="form-control" placeholder="Rechercher...">
-      <p>
-      <div id="app">
-        <div class="switch">
-            <label>
-              Mode Edition Off
-              <input v-on:click="editable = !editable" type="checkbox">
-              <span class="lever"></span>
-              Mode Edition On
-            </label>
-        </div>
-      <table id="myTable" class="table"> 
-        <thead>
-            <!-- <button class="btn btn-default" @click='addTableRow()'>Ajouter Une Intervention</button> -->
-            <tr>
-              <th>ID</th>
-              <th>SOCIETE</th>
-              <th>DEMANDEUR</th>
-              <th>EMAIL</th>
-              <th>ADRESSE</th>
-              <th>NUMERO</th>
-              <th>INTERVENANT</th>
-              <th>RAPPORT</th>
-              <th>SIGNE</th>
-              <th>ACTIONS</th>
-            </tr>
-        </thead>
-        <tbody> 
-              <tr id="editable" v-show="editable" v-for="(result, index) in results">
-                  <td>{{ result.index }}</td>
-                  <td><input v-model="result.Societe"></td>
-                  <td><input v-model="result.Demandeur.Nom"> <input v-model="result.Demandeur.Prenom"></td>
-                  <td><input v-model="result.Email"></td>
-                  <td><input v-model="result.Adresse"></td>
-                  <td><input v-model="result.numTel"></td>
-                  <td><input v-model="result.Intervenant.Nom"><input v-model="result.Intervenant.Prenom"></td>
-                  <td><input v-model="result.Rapport"></td>
-                  <td v-if="result.isSigned" >
-                      <div class="circle_green"></div>
-                  </td>
-              </tr>   
-              <tr id="noneditable" v-show="!editable" v-for="(result, index) in results">
-                  <td>{{ result.idIntervention }}</td>
-                  <td>{{ result.Societe }}</td>
-                  <td>{{ result.Demandeur.Nom }} {{ result.Demandeur.Prenom }}</td>
-                  <td>{{ result.Email }}</td>
-                  <td>{{ result.Adresse }}</td>
-                  <td>{{ result.numTel }}</td>
-                  <td>{{ result.Intervenant.Nom }} {{ result.Intervenant.Prenom }}</td>
-                  <td>{{ result.Rapport }}</td>
-                  <td v-if="result.isSigned" >
-                      <div class="circle_green"></div>
-                  </td>
-                  <td v-if="result.isSigned === false">
-                    <div class="circle_red"></div>
-                  </td>
-                  <td>
-                      <button class="btn btn-danger" @click='deleteTableRow(index)'>Supprimer</button>
-                  </td>
-              </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="main.js"></script>
-  <script src="script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<div id="root">
+		<div class="">
+			<div class="crud_header">
+				<h1 class="left">Intervention List</h1>
+				<button class="right addnew" @click="showingModal = true;">Add New</button>
+				<div class="fix"></div>
+			</div>
+
+			<hr>
+			<p class="errorMessage" v-if="errorMessage">{{errorMessage}}</p>
+			<p class="successMessage" v-if="successMessage">{{successMessage}}</p>
+
+			<table class="list">
+				<tr>
+					<th>DATE</th>
+					<th>PRENOM DEMANDEUR</th>
+					<th>NOM DEMANDEUR</th>
+					<th>SOCIETE</th>
+					<th>EMAIL</th>
+					<th>NUMERO</th>
+					<th>ADRESSE</th>
+					<th>NOM INTERVENANT</th>
+					<th>PRENOM INTERVENANT</th>
+					<th>SIGNE</th>
+					<th>EDIT</th>
+					<th>DELETE</th>
+				</tr>
+				<tr v-for="intervention in interventions">
+					<td>{{intervention.date}}</td>
+					<td>{{intervention.nameDemandeur}}</td>
+					<td>{{intervention.surnameDemandeur}}</td>
+					<td>{{intervention.company}}</td>
+					<td>{{intervention.email}}</td>
+					<td>{{intervention.number}}</td>
+					<td>{{intervention.address}}</td>
+					<td>{{intervention.nameIntervenant}}</td>
+					<td>{{intervention.surnameIntervenant}}</td>
+					<td>{{intervention.isSigned}}</td>
+					<td><button @click="showingeditModal = true; selectIntervention(intervention)">Edit</button></td>
+					<td><button @click="showingdeleteModal = true; selectIntervention(intervention)" >Delete</button></td>
+				</tr>
+			</table>
+			<div class="fix"></div>
+			<div class="modal col-md-6" id="addmodal" v-if="showingModal">
+				<div class="modalheading">
+					<p class="left">Add new intervention</p>
+					<p class="right close" @click="showingModal = false;">x</p>
+					<div class="fix"></div>
+				</div>
+				<div class="modalbody">
+					<div class="modalcontent">
+						<table class="form">
+							<tr>
+								<th>Date</th>
+								<th>:</th>
+								<td><input type="date" placeholder="Date" v-model="newIntervention.date"></td>
+							</tr>
+							<tr>
+								<th>Nom du Demandeur</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Nom du Demandeur" v-model="newIntervention.nameDemandeur"></td>
+							</tr>
+							<tr>
+								<th>Prénom du Demandeur</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Prénom du Demandeur" v-model="newIntervention.surnameDemandeur"></td>
+							</tr>
+							<tr>
+								<th>Société</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Société" v-model="newIntervention.company"></td>
+							</tr>
+							<tr>
+								<th>Email</th>
+								<th>:</th>
+								<td><input type="email" placeholder="Email" v-model="newIntervention.email"></td>
+							</tr>
+							<tr>
+								<th>Numéro</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Numéro" v-model="newIntervention.number"></td>
+							</tr>
+							<tr>
+								<th>Adresse</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Adresse" v-model="newIntervention.address"></td>
+							</tr>
+							<tr>
+								<th>Nom de l'intervenant</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Nom de l'intervenant" v-model="newIntervention.nameIntervenant"></td>
+							</tr>
+							<tr>
+								<th>Prénom de l'intervenant</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Prénom de l'intervenant" v-model="newIntervention.surnameIntervenant"></td>
+							</tr>
+							<tr>
+								<th>est Signé ?</th>
+								<th>:</th>
+								<td><input type="text" placeholder="est Signé ?" v-model="newIntervention.isSigned"></td>
+							</tr>
+						</table>
+						<div class="margin"></div>
+						<button class="center"  @click="showingModal = false; saveIntervention();" >Add Intervention</button>
+					</div>
+				</div>
+			</div>
+		<div class="modal col-md-6" id="editmodal" v-if="showingeditModal">
+				<div class="modalheading">
+					<p class="left">Edit intervention</p>
+					<p class="right close" @click="showingeditModal = false;">x</p>
+					<div class="fix"></div>
+				</div>
+				<div class="modalbody">
+					<div class="modalcontent">
+						<table class="form">
+							<tr>
+								<th>Date</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Date" v-model="clickedIntervention.date"></td>
+							</tr>
+							<tr>
+								<th>Nom du demandeur</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Nom du demandeur" v-model="clickedIntervention.nameDemandeur"></td>
+							</tr>
+							<tr>
+								<th>Prénom du demandeur</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Prénom du demandeur"  v-model="clickedIntervention.surnameDemandeur"></td>
+							</tr>
+							<tr>
+								<th>Société</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Société" v-model="clickedIntervention.company"></td>
+							</tr>
+							<tr>
+								<th>Email</th>
+								<th>:</th>
+								<td><input type="email" placeholder="Email" v-model="clickedIntervention.email"></td>
+							</tr>
+							<tr>
+								<th>Numéro</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Numéro"  v-model="clickedIntervention.number"></td>
+							</tr>
+							<tr>
+								<th>Adresse</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Adresse"  v-model="clickedIntervention.address"></td>
+							</tr>
+							<tr>
+								<th>Nom de l'intervenant</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Nom de l'intervenant"  v-model="clickedIntervention.nameIntervenant"></td>
+							</tr>
+							<tr>
+								<th>Prénom de l'intervenant</th>
+								<th>:</th>
+								<td><input type="text" placeholder="Prénom de l'intervenant"  v-model="clickedIntervention.surnameIntervenant"></td>
+							</tr>
+							<tr>
+								<th>Est Signé</th>
+								<th>:</th>
+								<td><input type="text" placeholder="est Signé"  v-model="clickedIntervention.mobile"></td>
+							</tr>
+						</table>
+						<div class="margin"></div>
+						<button class="center"  @click="showingeditModal = false; updateIntervention()">Update Intervention</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal col-md-6" id="deletemodal" v-if="showingdeleteModal">
+				<div class="modalheading">
+					<p class="left">Delete intervention</p>
+					<p class="right close" @click="showingdeleteModal = false;">x</p>
+					<div class="fix"></div>
+				</div>
+				<div class="modalbody">
+					<div class="modalcontent">
+
+						<div class="margin"></div>
+						<h3 class="center">Are you sure you want to delete this intervention?</h3>
+						<div class="margin"></div>
+						<h4 class="center">ID de l'intervention : {{clickedIntervention.id}}</h4>
+						<h4 class="center">Société concernée : {{clickedIntervention.company}}</h4>
+						<div class="margin"></div>
+						<div class="col-md-6 center">
+							<button class="left" @click="showingdeleteModal = false; deleteIntervention()">OUI</button>
+							<button class="right" @click="showingdeleteModal = false;">NON</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+
+
 </body>
 </html>
