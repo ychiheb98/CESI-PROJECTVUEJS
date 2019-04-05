@@ -47,12 +47,10 @@ if ($action == 'create') {
 
 	$result = $conn->query($insertQuery);
 	if ($result) {
-		$res['message'] = "Intervention Added successfully";
+		$res['message'] = "Ajout de l'intervention effectué avec succés";
 	} else{
-
-  	echo("Error description: " . mysqli_error($conn));
 		$res['error'] = true;
-		$res['message'] = "Insert Intervention failed";
+		$res['message'] = "Erreur sur l'insertion de l'intervention";
 	}
 }
 
@@ -75,10 +73,10 @@ if ($action == 'update') {
 	"',`address`='".$address."',`nameIntervenant`='".$nameIntervenant."',`surnameIntervenant`='".$surnameIntervenant.
 	"',`isSigned` ='".$isSigned."' WHERE id=".$id);
 	if ($result) {
-		$res['message'] = "User Updated successfully";
+		$res['message'] = "Modification effectuée avec succés";
 	} else{
 		$res['error'] = true;
-		$res['message'] = "User Update failed";
+		$res['message'] = "Erreur sur la modification de l'intervention";
 	}
 }
 
@@ -87,10 +85,10 @@ if ($action == 'delete') {
 
 	$result = $conn->query("DELETE FROM `intervention` WHERE `id` = '$id'");
 	if ($result) {
-		$res['message'] = "User deleted successfully";
+		$res['message'] = "Suppression effectuée avec succés";
 	} else{
 		$res['error'] = true;
-		$res['message'] = "User delete failed";
+		$res['message'] = "Erreur de suppression de l'intervention";
 	}
 }
 
@@ -100,7 +98,7 @@ header("Content-type: application/json");
 foreach($res as &$v) {
   $v['intervention'] = utf8_encode($v['intervention']);
 }
-echo json_encode($res);
+echo json_encode( $res, JSON_UNESCAPED_UNICODE );
 
 die();
 

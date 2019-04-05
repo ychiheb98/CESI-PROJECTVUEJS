@@ -30,44 +30,89 @@ button{
 }
 div#root {
     margin-top: 50px;
-    background: #f3f3f3;
     padding: 50px;
 }
-table.list{
-	width:100%;
+
+.dataTable {
+  display: block;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.dataTable thead, .dataTable tbody, .dataTable thead tr, .dataTable th {
+  display: block;
+}
+
+.dataTable thead {
+  float: left;
+}
+
+.dataTable tbody {
+  width: auto;
+  position: relative;
+  overflow-x: auto;
+}
+
+.dataTable td, .dataTable th {
+  padding: .625em;
+  line-height: 1.5em;
+  border-bottom: 1px dashed #ccc;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.dataTable th {
+  text-align: left;
+  background: rgba(0, 0, 0, 0.14);
+  border-bottom: 1px dashed #aaa;
+}
+
+.dataTable tbody tr {
+  display: table-cell;
+}
+
+.dataTable tbody td {
+  display: block;
+}
+
+.dataTable tr:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.07);
+}
+
+@media screen and (min-width: 50em) {
+
+  .dataTable {
+    display: table;
+  }
+
+  .dataTable thead {
+    display: table-header-group;
+    float: none;
+  }
+
+  .dataTable tbody {
+    display: table-row-group;
+  }
+
+  .dataTable thead tr, .dataTable tbody tr {
+    display: table-row;
+  }
+
+  .dataTable th, .dataTable tbody td {
+    display: table-cell;
+  }
+
+  .dataTable td, .dataTable th {
+    width: auto;
+  }
 
 }
-table.list tr{
 
-margin: 5px!important;
-
-border: 1px solid #fff;
-}
-table.list th {
-    background: #02a2ff;
-    padding: 2px;
-    text-align: center;
-}
 .crud_header {
-    background: #e0e0e0;
     padding: 35px 22px 20px 20px;
 }
-table.list tr td{
 
-padding: 10px;
-
-margin: 2px!important;
-
-background: #ddd;
-
-overflow: hidden;
-
-text-align: center;
-
-margin-top: 5px;
-
-border-right: 1px solid #fff;
-}
 .modal{
 	top: 99px;
 	left:0;
@@ -90,8 +135,10 @@ border-right: 1px solid #fff;
 .modalcontent {
     padding: 10px;
 }
+
+
 table.form {
-    width: 100%;
+    width: auto;
 }
 .form tr{
 text-align: center;
@@ -116,6 +163,7 @@ border-right: 5px solid #b6b6b6;
     display: block;
     margin: 0 auto;
 }
+
 p.errorMessage {
     background: #ffbaba;
     padding: 10px;
@@ -129,4 +177,36 @@ p.successMessage {
 .form td input {
     padding:5px 10px;
     outline: 0;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+
+div.pager {
+    text-align: center;
+    margin: 1em 0;
+}
+
+div.pager span {
+    display: inline-block;
+    width: 1.8em;
+    height: 1.8em;
+    line-height: 1.8;
+    text-align: center;
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    margin-right: 0.5em;
+}
+
+div.pager span.active {
+    background: #c00;
 }

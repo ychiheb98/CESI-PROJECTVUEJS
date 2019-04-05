@@ -58,9 +58,6 @@ var app = new Vue({
 				.then(function(response){
 					console.log(response);
 					app.clickedIntervention = {};
-					// if (response.data.error) {
-					// 	app.errorMessage = response.data.message;
-					// }else{
 					app.successMessage = response.data.message;
 					app.getAllInterventions();
 
@@ -73,9 +70,6 @@ var app = new Vue({
 				.then(function(response){
 					console.log(response);
 					app.clickedIntervention = {};
-					// if (response.data.error) {
-					// 	app.errorMessage = response.data.message;
-					// }else{
 					app.successMessage = response.data.message;
 					app.getAllInterventions();
 				});
