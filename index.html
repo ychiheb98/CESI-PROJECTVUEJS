@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Intervention Viewer</title>
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
@@ -15,15 +16,14 @@
 				<button class="right addnew" @click="showingModal = true;">Ajouter une nouvelle intervention</button>
 				<div class="fix"></div>
 			</div>
-			<div>
-				<td><input id="search" type="text" placeholder="Rechercher..."></td>
-			</div>
+
+			<input type="text" class="BigSearch pure-input-rounded" data-table="order-table" placeholder="Rechercher une intervention..">
 
 			<hr>
 			<p class="errorMessage" v-if="errorMessage">{{errorMessage}}</p>
 			<p class="successMessage" v-if="successMessage">{{successMessage}}</p>
 
-			<table id="table" class="paginated dataTable">
+			<table id="table" class="dataTable order-table table">
 				<thead>
 					<th scope="col">DATE</th>
 					<th scope="col">PRENOM DEMANDEUR</th>
